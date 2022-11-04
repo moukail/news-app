@@ -6,6 +6,7 @@
         <settings>
           <configurations>
             <configuration_by_sdk interpreter_id="7b05dc2c-1917-4714-8709-7469e4f296a6" executable_path="/var/www/web/vendor/bin/codecept" />
+            <local_configuration executable_path="$PROJECT_DIR$/web/vendor/codeception/codeception/codecept" />
           </configurations>
         </settings>
       </tool>

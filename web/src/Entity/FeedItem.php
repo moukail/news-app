@@ -12,8 +12,14 @@ use App\Repository\ItemRepository;
 class FeedItem
 {
     #[ORM\Id]
+    #[ORM\Column]
+    #[ORM\GeneratedValue]
+    #[Groups(groups: ["user", "manager"])]
+    private int $id;
+
     #[ORM\Column(type: "string", unique: true)]
-    private string $id;
+    #[Groups(groups: ["user", "manager"])]
+    private string $guid;
 
     #[ORM\Column]
     #[Groups(groups: ["user", "manager"])]
@@ -29,11 +35,6 @@ class FeedItem
     #[Groups(groups: ["user", "manager"])]
     #[Assert\NotBlank]
     private string $description;
-
-    #[ORM\Column(type: 'text')]
-    #[Groups(groups: ["user", "manager"])]
-    #[Assert\NotBlank]
-    private string $article;
 
     #[ORM\ManyToOne(targetEntity:Feed::class)]
     #[ORM\JoinColumn(nullable:false)]
@@ -53,6 +54,23 @@ class FeedItem
     public function setId(string $id): self
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGuid(): string
+    {
+        return $this->guid;
+    }
+
+    /**
+     * @param string $guid
+     */
+    public function setGuid(string $guid): self
+    {
+        $this->guid = $guid;
         return $this;
     }
 
@@ -108,23 +126,6 @@ class FeedItem
     }
 
     /**
-     * @return string
-     */
-    public function getArticle(): string
-    {
-        return $this->article;
-    }
-
-    /**
-     * @param string $article
-     */
-    public function setArticle(string $article): self
-    {
-        $this->article = $article;
-        return $this;
-    }
-
-    /**
      * @return Feed
      */
     public function getFeed(): Feed
@@ -139,5 +140,24 @@ class FeedItem
     {
         $this->feed = $feed;
         return $this;
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'guid' => $this->guid,
+            'title' => $this->title,
+            'description' => $this->description,
+            'link' => $this->link,
+            'feed' => $this->feed->getId(),
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        foreach ( $data as $key => $value ) {
+            $this->$key = $value;
+        }
     }
 }

@@ -3,16 +3,15 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class HomeController extends AbstractController
 {
-    /**
-     * @Route("/{reactRouting}", name="index", requirements={"reactRouting"="^(?!api).+"}, defaults={"reactRouting": null})
-     */
-    public function home(): Response
+    #[Template('home/index.html.twig')]
+    #[Route('/{reactRouting}', name: 'app_feed_list', requirements: ["reactRouting" => "^(?!api).+"], defaults: ["reactRouting" => null], methods: "GET")]
+    public function home(): array
     {
-        return $this->render('home/index.html.twig');
+        return [];
     }
 }

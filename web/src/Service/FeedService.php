@@ -22,10 +22,9 @@ class FeedService
         foreach ($xml->channel->item as $item) {
 
             $this->feedItemRepository->save($feed, [
-                'id' => $item->guid,
+                'guid' => $item->guid,
                 'title' => $item->title,
                 'description' => (string) $item->description,
-                'article' => $item->link,
                 'link' => $item->link,
             ]);
 

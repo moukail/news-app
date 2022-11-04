@@ -23,7 +23,7 @@ class FeedItemRepository extends ServiceEntityRepository
 
     public function save(Feed $feed, array $data)
     {
-        $feedItem = $this->find($data['id']);
+        $feedItem = $this->findBy(['guid' => $data['guid']]);
 
         if($feedItem){
             return;
@@ -31,11 +31,10 @@ class FeedItemRepository extends ServiceEntityRepository
 
         $feedItem = new FeedItem();
         $feedItem
-            ->setId($data['id'])
+            ->setGuid($data['guid'])
             ->setTitle($data['title'])
             ->setDescription($data['description'])
             ->setLink($data['link'])
-            ->setArticle($data['article'])
             ->setFeed($feed)
             //->setUpdatedAt($item->pubDate)
         ;

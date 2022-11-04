@@ -20,7 +20,7 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', './assets/index.tsx')
+    .addEntry('app', './assets/react/index.tsx')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     //.enableStimulusBridge('./assets/controllers.json')
@@ -57,7 +57,7 @@ Encore
     })
 
     // enables Sass/SCSS support
-    .addStyleEntry('css/app', './assets/scss/app.scss')
+    .addStyleEntry('css/app', './assets/react/index.scss')
     .enableSassLoader()
 
     // uncomment if you use TypeScript
@@ -68,7 +68,7 @@ Encore
     .enableTypeScriptLoader(function (tsConfig) {
         // https://github.com/TypeStrong/ts-loader/blob/main/README.md#loader-options
         tsConfig.transpileOnly = true;
-        tsConfig.configFile = 'assets/tsconfig.json';
+        tsConfig.configFile = 'assets/react/tsconfig.json';
     });
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher

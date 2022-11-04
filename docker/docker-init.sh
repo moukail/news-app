@@ -4,7 +4,7 @@
 # . /home/install.sh
 
 export APP_ENV=dev
-#rm -rf var vendor composer.lock symfony.lock
+rm -rf var vendor composer.lock symfony.lock node_modules yarn.lock package-lock.json
 cp .env.develop .env
 echo "8.1" > .php-version
 
@@ -43,5 +43,7 @@ echo "-------------------------------------------------------------------"
 codecept clean
 codecept run --steps
 
-symfony server:stop
-symfony server:start
+npm install
+npm run watch
+#symfony server:stop
+#symfony server:start

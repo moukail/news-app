@@ -1,4 +1,6 @@
 ###
+GET http://localhost:9200/my_index/_search
+###
 GET http://localhost:8000/api/v1/feed
 Content-Type: application/json; charset=UTF-8
 Content-Encoding: gzip
