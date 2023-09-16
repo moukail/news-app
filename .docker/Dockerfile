@@ -1,11 +1,12 @@
-FROM node:lts-alpine3.16 AS node
-FROM php:8.1-fpm-alpine3.16
+FROM node:lts-alpine3.18 AS node
+FROM php:8.2-fpm-alpine3.18
 
-RUN apk --update --no-cache add bash wget gcc g++ make autoconf rabbitmq-c-dev rabbitmq-c libsodium-dev openssh rsync git
+ENV TIMEZONE 'UTC'
+
+RUN apk --update --no-cache add linux-headers bash wget gcc g++ make autoconf rabbitmq-c-dev rabbitmq-c libsodium-dev openssh rsync git
 RUN docker-php-ext-install -j$(nproc) pdo_mysql
 
 RUN pecl install amqp xdebug redis libsodium && docker-php-ext-enable amqp xdebug redis opcache
-RUN git config --global user.email "moukafih@live.nl" && git config --global user.name "Ismail Moukafih"
 
 # Use the default production configuration
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
@@ -13,12 +14,9 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     && sed -i "s|memory_limit =.*|memory_limit = -1|" /usr/local/etc/php/php.ini
 
 RUN echo $'zend_extension=xdebug.so \n\
-xdebug.mode=debug,profile,coverage,develop \n\
-xdebug.start_with_request=trigger \n\
-xdebug.discover_client_host=true \n\
-xdebug.client_host=host.docker.internal \n\
-xdebug.idekey=PHPSTORM \n\
-xdebug.file_link_format="phpstorm://open?file=%f&line=%l" '\
+xdebug.default_enable=1 \n\
+xdebug.remote_enable=1 \n\
+xdebug.remote_host=host.docker.internal '\
 > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer

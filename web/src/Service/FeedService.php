@@ -6,6 +6,7 @@ use App\Entity\Feed;
 use App\Repository\FeedRepository;
 use App\Repository\FeedItemRepository;
 use Elastic\Elasticsearch\Client;
+use SimpleXMLElement;
 
 class FeedService
 {
@@ -17,7 +18,7 @@ class FeedService
 
     public function parseRss(Feed $feed): void
     {
-        $xml = simplexml_load_file($feed->getLink());
+        $xml = new SimpleXMLElement($feed->getLink(), 0, true);
 
         foreach ($xml->channel->item as $item) {
 
@@ -25,6 +26,7 @@ class FeedService
                 'guid' => $item->guid,
                 'title' => $item->title,
                 'description' => (string) $item->description,
+                'article' => (string) $item->description,
                 'link' => $item->link,
             ]);
 

@@ -3,7 +3,7 @@ services:
   web:
     container_name: news-web
     build:
-      context: docker
+      context: .docker
     ports:
       - "8000:8000"
     volumes:
@@ -17,10 +17,12 @@ services:
     tty: true
 
   database:
-    image: mysql:8.0
+    image: mysql:8.1
     container_name: news-database
     ports:
-      - "3306:3306"
+      - 3306
+    expose:
+      - 3306
     volumes:
       - database:/var/lib/mysql
       #- ./docker/data:/docker-entrypoint-initdb.d
@@ -29,13 +31,13 @@ services:
       - MYSQL_DATABASE=news
 
   redis:
-    image: redis:7.0-alpine3.16
+    image: redis:7.2-alpine3.18
     container_name: news-redis
-    ports:
-      - "6379:6379"
+    expose:
+      - 6379
 
   elasticsearch:
-    image: elasticsearch:8.4.2
+    image: elasticsearch:8.9.2
     container_name: news-search
     environment:
       - node.name=es01
@@ -43,8 +45,8 @@ services:
       - xpack.security.enabled=false
     volumes:
       - elastic:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
+    expose:
+      - 9200
 
 volumes:
   database:
