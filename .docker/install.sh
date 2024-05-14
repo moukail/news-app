@@ -7,7 +7,7 @@ echo "-------------------------------------------------------------------"
 echo "-                create symfony project                           -"
 echo "-------------------------------------------------------------------"
 export APP_ENV=dev
-symfony new web --version=5.4 #--full
+symfony new web --version=6.4 #--full
 
 echo "-------------------------------------------------------------------"
 echo "-                   require packages                              -"
